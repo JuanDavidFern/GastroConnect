@@ -1,0 +1,108 @@
+<div
+  class="bg-white bg-opacity-40 p-8 m-auto my-8 mx-44 rounded-md text-center"
+>
+  <form class="-mb-4">
+    <div class="relative w-2/3 mx-auto">
+      <input
+        type="search"
+        id="search"
+        class="block w-full text-sm bg-white-50 focus:ring-amber-400 focus:border-amber-400 border rounded-full p-2 shadow-xl"
+        placeholder="Papitas de la abuela"
+        [(ngModel)]="searchValue"
+        name="searchValue"
+        (ngModelChange)="onSearchValueChange()"
+      />
+      <button
+        (click)="search()"
+        type="submit"
+        class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-black"
+      >
+        <svg
+          class="w-4 h-4"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 20 20"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="mt-6 space-x-16">
+      <button
+        (click)="changeDifficulty($event)"
+        type="button"
+        class="text-black bg-white hover:bg-neutral-300 focus:outline-none focus:ring-2 focus:ring-amber-400 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 shadow-xl"
+        id="all"
+        value=""
+      >
+        All
+      </button>
+      <button
+        (click)="changeDifficulty($event)"
+        type="button"
+        class="text-black bg-white hover:bg-neutral-300 focus:outline-none focus:ring-2 focus:ring-amber-400 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 shadow-xl"
+        id="Principiante"
+        value="Principiante"
+      >
+        Beginner
+      </button>
+      <button
+        (click)="changeDifficulty($event)"
+        type="button"
+        class="text-black bg-white hover:bg-neutral-300 focus:outline-none focus:ring-2 focus:ring-amber-400 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 shadow-xl"
+        id="Medio"
+        value="Medio"
+      >
+        Medium
+      </button>
+      <button
+        (click)="changeDifficulty($event)"
+        type="button"
+        class="text-black bg-white hover:bg-neutral-300 focus:outline-none focus:ring-2 focus:ring-amber-400 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 shadow-xl"
+        id="Avanzado"
+        value="Avanzado"
+      >
+        Advanced
+      </button>
+    </div>
+  </form>
+  <div class="pl-24">
+    <div *ngIf="recipes.length > 0; else noRecipes">
+      <app-recipe-card
+        *ngFor="let recipe of recipes"
+        [recipe]="recipe"
+      ></app-recipe-card>
+    </div>
+    <ng-template #noRecipes>
+      <app-no-recipes />
+    </ng-template>
+  </div>
+  <button
+    *ngIf="token != ''"
+    (click)="goCreateRecipe()"
+    id="fixed-button"
+    class="fixed bottom-4 right-4 p-2 bg-yellow-400 text-white rounded-full shadow-lg mr-3 mb-1"
+  >
+    <svg
+      class="w-8 h-8"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M12 4v16m8-8H4"
+      ></path>
+    </svg>
+  </button>
+</div>

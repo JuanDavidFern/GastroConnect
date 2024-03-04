@@ -1,0 +1,26 @@
+<div
+  class="bg-white bg-opacity-40 p-8 m-auto my-8 mx-44 rounded-md text-center"
+>
+  <div *ngIf="loading; else loadedContent">
+    <!-- Puedes mostrar un indicador de carga aquí -->
+    <p>Loading...</p>
+  </div>
+  <ng-template #loadedContent>
+    <div
+      *ngIf="followings && followings.length > 0"
+      class="container mx-auto mt-4"
+    >
+      <div class="flex flex-wrap -mx-4">
+        <div *ngFor="let following of followings" class="w-1/3 px-2 mb-8">
+          <app-follower-card [follower]="following"></app-follower-card>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!followings || followings.length === 0">
+      <!-- Puedes mostrar un mensaje indicando que no hay seguidores -->
+      <p class="bg-white p-2 m-auto my-2 mx-44 rounded-md text-center">
+        No following available.
+      </p>
+    </div>
+  </ng-template>
+</div>

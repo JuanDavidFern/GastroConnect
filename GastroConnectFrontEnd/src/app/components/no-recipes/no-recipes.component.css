@@ -1,0 +1,16 @@
+@keyframes pulse {
+	0% {
+		transform: scale(1);
+	}
+	100% {
+		transform: scale(1.1);
+	}
+}
+
+#alert-2 {
+    animation: pulse 3s infinite alternate; /* Animación continua */
+    position: absolute;
+    top: 255px; /* Ajusta la posición desde la parte superior según sea necesario */
+    z-index: 1000;
+    right: 35%;
+}

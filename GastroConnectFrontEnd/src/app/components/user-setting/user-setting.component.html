@@ -1,0 +1,202 @@
+<div
+  class="bg-white bg-opacity-40 p-8 m-auto my-8 mx-44 rounded-md text-center"
+>
+  <div *ngIf="loading; else loadedContent">
+    <p>Loading...</p>
+  </div>
+  <ng-template #loadedContent>
+    <div class="bg-stone-300 flex flex-col items-center justify-center">
+      <div class="overflow-hidden mt-8 w-44">
+        <img
+          class="w-full h-40 object-fill rounded-3xl mb-4"
+          src="data:image/jpg;base64,{{ profile.avatar }}"
+          alt="Imagen de la tarjeta"
+        />
+        <div *ngIf="isEditing">
+          <label
+            for="fileInput"
+            class="cursor-pointer bg-amber-500 hover:bg-amber-200 py-2 px-4 rounded-full"
+          >
+            Select photo
+          </label>
+          <input
+            id="fileInput"
+            type="file"
+            (change)="convertToBase64($event)"
+            class="hidden mt-16"
+            accept=".jpg"
+          />
+        </div>
+        <div *ngIf="!validChanges">
+          <p class="text-red-500 mt-6">New parameters in use</p>
+        </div>
+        <div class="text-center" *ngIf="!isChangingPassword && !isDeleting">
+          <p class="text-gray-500 mb-2 mt-4">Name</p>
+          <div *ngIf="!validName">
+            <p class="text-red-500">Invalid name</p>
+          </div>
+          <input
+            #usernameInput
+            class="bg-white rounded-full shadow-md shadow-xl shadow-2xl mb-4 text-center w-44"
+            value="{{ profile.username }}"
+            readonly
+          />
+          <p class="text-gray-500 mb-2">Email</p>
+          <div *ngIf="!validEmail">
+            <p class="text-red-500">Invalid email</p>
+          </div>
+          <input
+            #emailInput
+            class="bg-white rounded-full shadow-md shadow-xl shadow-2xl mb-4 text-center w-44"
+            value="{{ profile.email }}"
+            readonly
+          />
+          <div *ngIf="!isEditing">
+            <p class="text-gray-500 mb-2">Registration_date</p>
+            <p
+              class="bg-white rounded-full shadow-md shadow-xl shadow-2xl mb-4"
+            >
+              {{ formatTimestamp(profile.registration_date) }}
+            </p>
+          </div>
+        </div>
+        <div *ngIf="isChangingPassword">
+          <div class="text-center">
+            <div *ngIf="!sameOldPass">
+              <p class="text-red-500">Incorrect password</p>
+            </div>
+            <p class="text-gray-500 mb-2 mt-4">Old password</p>
+            <input
+              type="password"
+              #oldPassInput
+              class="bg-white rounded-full shadow-md shadow-xl shadow-2xl mb-4 text-center w-44"
+            />
+            <div *ngIf="!samePass">
+              <p class="text-red-500">The passwords must be same</p>
+            </div>
+            <div *ngIf="newPassShort">
+              <p class="text-red-500">
+                The passwords must be longer than 3 characters
+              </p>
+            </div>
+            <p class="text-gray-500 mb-2">New password</p>
+            <input
+              type="password"
+              #newPassInput
+              class="bg-white rounded-full shadow-md shadow-xl shadow-2xl mb-4 text-center w-44"
+            />
+            <p class="text-gray-500 mb-2">Repeat password</p>
+            <input
+              type="password"
+              #newRepeatPassInput
+              class="bg-white rounded-full shadow-md shadow-xl shadow-2xl mb-4 text-center w-44"
+            />
+          </div>
+        </div>
+        <div *ngIf="isDeleting">
+          <p class="text-red-500 mb-2">this change is permanent</p>
+          <div *ngIf="failedToDelete" class="text-red-500">
+            Failed user or pass
+          </div>
+          <p class="text-gray-500 mb-2 mt-4">Name</p>
+          <input
+            #usernameToDelete
+            class="bg-white rounded-full shadow-md shadow-xl shadow-2xl mb-4 text-center w-44"
+          />
+          <p class="text-gray-500 mb-2">Password</p>
+          <input
+            type="password"
+            #passToDelete
+            class="bg-white rounded-full shadow-md shadow-xl shadow-2xl mb-4 text-center w-44"
+          />
+        </div>
+      </div>
+      <div class="flex space-x-4 mt-3">
+        <div *ngIf="!isChangingPassword && !isDeleting">
+          <!-- <div *ngIf="isEditing" class="mb-4">
+            <button
+              (click)="dontChangeProfile()"
+              class="bg-amber-500 rounded-full p-2 px-4 hover:bg-amber-200"
+            >
+              Go back
+            </button>
+          </div> -->
+          <button
+            *ngIf="isEditing"
+            (click)="stopEdit()"
+            class="bg-amber-500 rounded-full p-2 px-4 hover:bg-amber-200 mr-4"
+          >
+            Cancel changes
+          </button>
+          <button
+            (click)="changeProfile()"
+            class="bg-amber-500 rounded-full p-2 px-4 hover:bg-amber-200"
+          >
+            {{ isEditing ? "Confirm changes" : "Change profile" }}
+          </button>
+        </div>
+        <div *ngIf="!isEditing && !isDeleting">
+          <!-- <div *ngIf="isChangingPassword" class="mb-4">
+            <button
+              (click)="dontChangePass()"
+              class="bg-amber-500 rounded-full p-2 px-4 hover:bg-amber-200"
+            >
+              Go back
+            </button>
+          </div> -->
+          <button
+            *ngIf="isChangingPassword"
+            (click)="stopChangePass()"
+            class="bg-amber-500 rounded-full p-2 px-4 hover:bg-amber-200 mr-4"
+          >
+            Cancel changes
+          </button>
+          <button
+            (click)="changePassword()"
+            class="bg-amber-500 rounded-full p-2 px-4 hover:bg-amber-200"
+          >
+            Change password
+          </button>
+        </div>
+      </div>
+      <div *ngIf="!isEditing && !isChangingPassword">
+        <!-- <div *ngIf="isDeleting">
+          <button
+            (click)="dontDelete()"
+            class="bg-amber-500 rounded-full p-2 px-4 mt-4 hover:bg-amber-200"
+          >
+            Go back
+          </button>
+        </div> -->
+        <button
+          *ngIf="isDeleting"
+          (click)="stopDelete()"
+          class="bg-amber-500 rounded-full p-2 px-4 hover:bg-amber-200 mr-4"
+        >
+          Cancel changes
+        </button>
+        <button
+          (click)="delete()"
+          class="bg-red-500 rounded-full p-2 px-4 mt-4 hover:bg-red-400"
+        >
+          Delete account
+        </button>
+      </div>
+      <p class="text-gray-500 mt-8">Recipes created</p>
+      <div class="p-8">
+        <div
+          *ngIf="recipes.length > 0; else noRecipes"
+          class="border border-dashed border-black w-full mx-auto flex flex-col items-center pl-16 pb-8"
+        >
+          <app-recipe-card
+            *ngFor="let recipe of recipes"
+            [recipe]="recipe"
+          ></app-recipe-card>
+        </div>
+        <ng-template #noRecipes>
+          <p class="mr-5">This user currently has no recipes</p>
+        </ng-template>
+      </div>
+    </div>
+  </ng-template>
+</div>

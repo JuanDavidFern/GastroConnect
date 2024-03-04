@@ -1,0 +1,12 @@
+/* You can add global styles to this file, and also import other style files */
+body{
+    font-family: Andika;
+    background-image: url("assets/ssspatulin.jpg");
+    background-repeat: repeat;
+    background-size: 14%;
+}
+
+#search::-webkit-search-cancel-button,
+#search::-webkit-search-clear-button {
+  display: none;
+}

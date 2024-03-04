@@ -1,0 +1,55 @@
+<div
+  class="bg-white bg-opacity-40 p-8 m-auto my-8 mx-44 rounded-md text-center"
+>
+  <div *ngIf="loading; else loadedContent">
+    <!-- Puedes mostrar un indicador de carga aquí -->
+    <p>Loading...</p>
+  </div>
+  <ng-template #loadedContent>
+    <div class="bg-stone-300 flex flex-col items-center justify-center">
+      <div class="overflow-hidden mt-8 w-44">
+        <img
+          class="w-full h-40 object-fill rounded-3xl mb-4"
+          src="data:image/jpg;base64,{{ profile.avatar }}"
+          alt="Imagen de la tarjeta"
+        />
+        <div class="text-center">
+          <p class="text-gray-500 mb-2">Name</p>
+          <p class="bg-white rounded-full shadow-md shadow-xl shadow-2xl mb-4">
+            {{ profile.username }}
+          </p>
+          <p class="text-gray-500 mb-2">Email</p>
+          <p class="bg-white rounded-full shadow-md shadow-xl shadow-2xl mb-4">
+            {{ profile.email }}
+          </p>
+          <p class="text-gray-500 mb-2">Registration_date</p>
+          <p class="bg-white rounded-full shadow-md shadow-xl shadow-2xl mb-4">
+            {{ formatTimestamp(profile.registration_date) }}
+          </p>
+          <button
+            *ngIf="token != '' && !profile.autoFollow"
+            (click)="changeFollow()"
+            class="bg-amber-400 hover:bg-amber-500 text-white font-bold py-2 px-4 rounded-full transition-all duration-300 transform hover:scale-105 mb-4 w-40 mt-2"
+          >
+            {{ profile.follow ? "Unfollow" : "Follow" }}
+          </button>
+        </div>
+      </div>
+      <p class="text-gray-500 mt-8">Recipes created</p>
+      <div class="p-8">
+        <div
+          *ngIf="recipes.length > 0; else noRecipes"
+          class="border border-dashed border-black w-full mx-auto flex flex-col items-center pl-16 pb-8"
+        >
+          <app-recipe-card
+            *ngFor="let recipe of recipes"
+            [recipe]="recipe"
+          ></app-recipe-card>
+        </div>
+        <ng-template #noRecipes>
+          <p class="mr-5">This user currently has no recipes</p>
+        </ng-template>
+      </div>
+    </div>
+  </ng-template>
+</div>

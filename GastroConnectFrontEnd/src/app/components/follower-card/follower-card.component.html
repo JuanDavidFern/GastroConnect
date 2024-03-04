@@ -1,0 +1,12 @@
+<!-- <img class="" src="data:image/jpg;base64,{{follower.avatar}}"> -->
+<div class="w-full px-4 mb-8">
+    <div class="bg-white overflow-hidden shadow-lg rounded-lg">
+      <img class="w-full h-40 object-cover" src="data:image/jpg;base64,{{follower.avatar}}" alt="Imagen de la tarjeta">
+      <div class="p-4 cursor-pointer" (click)="goProfile(follower.id)">
+        <h2 class="text-xl font-bold mb-2">{{follower.username}}</h2>
+        <p class="text-gray-700">{{follower.email}}</p>
+        <p class="text-gray-700">
+          Date of admission: {{follower.registration_date}}</p>
+      </div>
+    </div>
+  </div>

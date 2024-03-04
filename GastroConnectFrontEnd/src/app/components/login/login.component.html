@@ -1,0 +1,42 @@
+<div class="flex justify-center items-center h-screen">
+    <div class="container" id="container">
+        <div class="form-container sign-up">
+            <form #formRegister="ngForm" (ngSubmit)="register(formRegister)">
+                <span>Use your email for registeration</span>
+                <input type="text" placeholder="Username" name="username" [(ngModel)] = "reg.username">
+                <p class="incorrect" *ngIf="validations?.register?.username === false">The username must be a minimum of 3 characters</p>
+                <input type="email" placeholder="email@email.com" name="email" [(ngModel)] = "reg.email">
+                <p class="incorrect" *ngIf="validations?.register?.email === false">The email must be a real email</p>
+                <input type="password" placeholder="Password" name="password" [(ngModel)] = "reg.password">
+                <p class="incorrect" *ngIf="validations?.register?.password === false">The password must be a minimum of 3 characters</p>
+                <button class="buttonNoChange" type="submit" value="Sing Up">Sign Up</button>
+            </form>
+        </div>
+        <div class="form-container sign-in">
+            <form #formLogIn="ngForm" (ngSubmit)="login(formLogIn)">
+                <h1>Sign In</h1>
+                <span>Use your username and password</span>
+                <p class="incorrect" *ngIf="validations?.logIn?.exist === false">That username and password do not exist</p>
+                <input id="LogInsername" #userInput type="text" placeholder="Username" name="username" [(ngModel)] = "logIn.username">
+                <p class="incorrect" *ngIf="validations?.logIn?.username === false">The username must be a minimum of 3 characters</p>
+                <input type="password" placeholder="Password" name="password" [(ngModel)] = "logIn.password">
+                <p class="incorrect" *ngIf="validations?.logIn?.password === false">The password must be a minimum of 3 characters</p>
+                <button class="buttonNoChange" type="submit" value="Sing In">Sign In</button>
+            </form>
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Welcome Back!</h1>
+                    <p class="text">Enter your personal details to use all of site features</p>
+                    <button class="buttonChange" id="login" (click)="showLogIn()">Sign In</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Hello, Friend!</h1>
+                    <p class="text">Register with your personal details to use all of site features</p>
+                    <button class="buttonChange" id="register" (click)="showRegister()">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
